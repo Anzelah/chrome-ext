@@ -1,4 +1,0 @@
-//const configuration = new Configuration({ 
-//    apiKey: process.env.GPT_API_KEY, 
-//});
-//const client = new OpenAIApi(configuration);

@@ -1,37 +1,33 @@
 // JAVASCRIPT LOGIC FOR THE AI WIDGET INTERFACE. HANDLES USER INPUT, SENDS IT TO AN AI SERVICE, AND DISPLAYS THE RESPONSE
 async function fetchResponse(input) {
-    const url = 'https://api.openai.com/v1/chat/completions';
-    const API_KEY = process.env.GPT_API_KEY;
+    const url = 'htpp://localhost:3000/chat'
 
-    const data = {
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: input }],
-    }
-
-    const req = {
+    const options = {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${API_KEY}`
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(input)
     }
 
-    const res = await fetch(url, req)
-    if (!res.ok) {
-        throw new Error('API request failed');
-    }
+    const res = await fetch(url, options)
     const resp = await res.json()
 
-    return resp.data.choices[0].message.content;
+    return resp.response;
 }
+
 
 document.getElementById("ai-send").addEventListener("click", async() => {
     let aiRes = document.getElementById('ai-response')
     const input = document.getElementById("ai-input").value;
+    const sendButton = document.getElementById('ai-send')
 
-    if (!input) return;
-
+    if (!input) {
+        aiRes.HTML = 'Please enter a message'
+        return;
+    }
+    sendButton.disabled = true
+    
     try {
         aiRes.innerHTML = 'Thinking....'
         const response = await fetchResponse(input)
@@ -39,5 +35,7 @@ document.getElementById("ai-send").addEventListener("click", async() => {
     } catch(err) {
         aiRes.innerHTML = 'An error occured while getting a response. Please try again'; // use err.message during development
         console.error(err)
+    } finally {
+        sendButton.disabled = false
     }
 });
