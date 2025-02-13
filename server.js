@@ -1,8 +1,8 @@
 //ACT AS A PROXY BETWEEN THE EXTENSION AND OPENAIAPI
-const cors = require('cors')
-const express = require('express')
-const fetch = require('node-fetch')
-require('dotenv').config()
+import cors from 'cors'
+import express from 'express'
+import fetch from 'node-fetch'
+import 'dotenv/config'
 
 const app = express()
 app.use(express.json())
@@ -13,6 +13,7 @@ const apiKey = process.env.API_KEY
 
 
 app.post('/chat', async(req, res) => {
+    console.log(req.body)
     const { input } = req.body;
     if (!input) {
         return res.status(400).json({ error: 'Input cannot be empty'})
@@ -49,5 +50,5 @@ app.post('/chat', async(req, res) => {
 
 
 app.listen(port, () => {
-    console.log(`Express app is listening on port ${PORT}`)
+    console.log(`Express app is listening on port ${port}`)
 })
