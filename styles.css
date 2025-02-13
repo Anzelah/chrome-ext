@@ -2,19 +2,18 @@
 #ai-widget {
   max-width: 400px;
   width: 100%;
-  background: #be3636;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   padding: 16px;
   font-family: Arial, sans-serif;
-  position: relative;
+  position: absolute;
   overflow: hidden;
 }
 
 /* Title */
 #ai-widget h1 {
   font-size: 18px;
-  color: #333;
+  color: rgb(68, 45, 45);
   margin-bottom: 8px;
   text-align: center;
 }
@@ -24,11 +23,17 @@
   width: 100%;
   height: 80px;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border: 0.5px solid #d2d0d0;
+  border-radius: 20px;
   resize: none;
   font-size: 14px;
   transition: border 0.3s ease-in-out;
+  box-sizing: border-box;
+}
+
+#ai-input::placeholder {
+  color: lightgray; /* Change this to your desired placeholder color */
+  font-size: 16px;
 }
 
 #ai-input:focus {

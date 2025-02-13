@@ -5,10 +5,11 @@ async function fetchResponse(input) {
     const options = {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'text/plain'
         },
-        body: JSON.stringify(input)
+        body: String(input)
     }
+
 
     const res = await fetch(url, options) // issue here
     const resp = await res.json()

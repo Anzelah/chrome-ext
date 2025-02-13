@@ -5,16 +5,21 @@ import fetch from 'node-fetch'
 import 'dotenv/config'
 
 const app = express()
+
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+app.use(express.text());
 app.use(cors({ origin: "*" })) // replace with extension ID
 
 const port = process.env.PORT || 5000
 const apiKey = process.env.API_KEY
 
+app.get('/home', (req, res) => {
+    res.send("Welcome to the extensions homepage")   
+})
 
 app.post('/chat', async(req, res) => {
-    console.log(req.body)
-    const { input } = req.body;
+    const input  = req.body;
     if (!input) {
         return res.status(400).json({ error: 'Input cannot be empty'})
     }
@@ -35,6 +40,7 @@ app.post('/chat', async(req, res) => {
 
     try {
         const response = await fetch(url, options)
+        console.log(response)
         if (!response.ok) {
             throw new Error('API request failed');
         }
