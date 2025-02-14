@@ -40,12 +40,13 @@ app.post('/chat', async(req, res) => {
 
     try {
         const response = await fetch(url, options)
-        console.log(response)
+        if (response.status === 429) {
+            return res.status(429).send({ error: 'Too many requests. Please try again after a moment' })
+        }
         if (!response.ok) {
-            throw new Error('API request failed');
+            throw new Error('API request failed'); // might add res.status for debbugging purposes
         }
         const data = await response.json()
-
         res.json({ response: data.choices[0].message.content })
     } catch(error) {
         res.status(500).json({ error: 'An error occured while processing your request' })

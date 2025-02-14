@@ -9,12 +9,15 @@ async function fetchResponse(input) {
         },
         body: String(input)
     }
-
-
-    const res = await fetch(url, options) // issue here
+    const res = await fetch(url, options) // fetch results from the backend
+    if (res.status === 429) {
+        return 'Too many requests. Please try again after a few minutes'
+    }
+    if (!res.ok) {
+        throw new Error('No valid response from AI. Please try again') //most likely a 500 error 
+    }
     const resp = await res.json()
-
-    return resp.response;
+    return resp.response; // a string
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -32,10 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             aiRes.innerHTML = 'Thinking....'
             const response = await fetchResponse(input)
-            aiRes.innerHTML = response; //response from the AI;
+            aiRes.innerHTML = response; //response from the AI or a 429 error;
         } catch(err) {
-            aiRes.innerHTML = 'An error occured while getting a response. Please try again'; // use err.message during development
-            console.error(err)
+            aiRes.innerHTML = err.message; 
+            console.error(err) //for debugging purposes
         } finally {
             sendButton.disabled = false
         }
