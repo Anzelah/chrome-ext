@@ -9,7 +9,7 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
-app.use(cors({ origin: "*" })) // replace with extension ID
+app.use(cors({ origin: `chrome-extension://${process.env.EXTENSION_ID}` })) // replace with extension ID
 
 const port = process.env.PORT || 5000
 const apiKey = process.env.API_KEY
@@ -33,13 +33,14 @@ app.post('/chat', async(req, res) => {
             'Authorization': `Bearer ${apiKey}`
         },
         body: JSON.stringify({
-            model: "gpt-3.5-turbo",
+            model: "gpt-4o-mini",
             messages: [{ role: "user", content: input }],
         })
     }
 
     try {
         const response = await fetch(url, options)
+        console.log(response)
         if (response.status === 429) {
             return res.status(429).send({ error: 'Too many requests. Please try again after a moment' })
         }
